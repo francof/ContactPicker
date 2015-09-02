@@ -216,7 +216,7 @@ public class ContactPickerPlugin extends CordovaPlugin {
     }
 
     private String getSelectedPhone(String id) {
-        String phoneNumber;
+        String phoneNumber = "";
         Cursor phonesCur = context.getContentResolver().query(
                 ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
                 ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
