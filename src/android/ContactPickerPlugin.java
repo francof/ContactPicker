@@ -106,6 +106,7 @@ public class ContactPickerPlugin extends CordovaPlugin {
             String email = getContactEmail(id);
             JSONObject phones = getContactPhones(id);
             String photoUrl = getContactPhotoUrl(id);
+            String selectedPhone = getSelectedPhone(id);
 
             JSONObject contact = new JSONObject();
             contact.put("id", id);
@@ -113,6 +114,7 @@ public class ContactPickerPlugin extends CordovaPlugin {
             contact.put("displayName", name);
             contact.put("phones", phones);
             contact.put("photoUrl", photoUrl);
+            contact.put("phone", selectedPhone);
 
             callbackContext.success(contact);
 
@@ -213,6 +215,22 @@ public class ContactPickerPlugin extends CordovaPlugin {
         return phones;
     }
 
+    private String getSelectedPhone(String id) {
+        String phoneNumber;
+        Cursor phonesCur = context.getContentResolver().query(
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
+                new String[]{id}, null);
+
+        JSONObject phones = new JSONObject();
+
+        while (phonesCur.moveToNext()) {
+            phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+        }
+        phonesCur.close();
+
+        return phoneNumber;
+    }
     private String getContactEmail(String id) {
         String email = "";
         Cursor emailCur = context.getContentResolver().query(
