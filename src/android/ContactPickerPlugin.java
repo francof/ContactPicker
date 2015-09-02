@@ -223,7 +223,7 @@ public class ContactPickerPlugin extends CordovaPlugin {
                 ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
                 ContactsContract.CommonDataKinds.Phone._ID+ " = ?",
                 new String[]{phoneId}, null);
-        int phoneIdx = phonesCur.getColumnIndex(Phone.NUMBER);
+        int phoneIdx = phonesCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
          if(phonesCur.getCount() == 1) { // contact has a single phone number
             // get the only phone number
             if(phonesCur.moveToFirst()) {
