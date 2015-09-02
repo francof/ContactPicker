@@ -224,15 +224,15 @@ public class ContactPickerPlugin extends CordovaPlugin {
                 ContactsContract.CommonDataKinds.Phone._ID+ " = ?",
                 new String[]{phoneId}, null);
         int phoneIdx = phonesCur.getColumnIndex(Phone.NUMBER);
-         if(c.getCount() == 1) { // contact has a single phone number
+         if(phonesCur.getCount() == 1) { // contact has a single phone number
             // get the only phone number
-            if(c.moveToFirst()) {
-                phoneNumber = c.getString(phoneIdx);
-                Log.v(TAG, "Got phone number: " + phone);
+            if(phonesCur.moveToFirst()) {
+                phoneNumber = phonesCur.getString(phoneIdx);
+                Log.v("meow", "Got phone number: " + phone);
 
 
             } else {
-                Log.w(TAG, "No results");
+                Log.w("meow", "No results");
             }
         } 
         phonesCur.close();
