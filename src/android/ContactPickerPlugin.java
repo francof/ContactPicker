@@ -91,6 +91,7 @@ public class ContactPickerPlugin extends CordovaPlugin {
                 null, null);
 
         String id = "";
+        String phoneId = "";
         if (requestCode == INSERT_CONTACT) {
             c.moveToLast();
             id = c.getInt(c.getColumnIndexOrThrow(PhoneLookup._ID)) + "";
@@ -99,6 +100,7 @@ public class ContactPickerPlugin extends CordovaPlugin {
             id = c.getInt(c
                     .getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.CONTACT_ID))
                     + "";
+            phoneId = contactData.getLastPathSegment();
         }
 
         try {
@@ -106,7 +108,7 @@ public class ContactPickerPlugin extends CordovaPlugin {
             String email = getContactEmail(id);
             JSONObject phones = getContactPhones(id);
             String photoUrl = getContactPhotoUrl(id);
-            String selectedPhone = getSelectedPhone(id);
+            String selectedPhone = getSelectedPhone(phoneId);
 
             JSONObject contact = new JSONObject();
             contact.put("id", id);
@@ -215,18 +217,24 @@ public class ContactPickerPlugin extends CordovaPlugin {
         return phones;
     }
 
-    private String getSelectedPhone(String id) {
+    private String getSelectedPhone(String phoneId) {
         String phoneNumber = "";
         Cursor phonesCur = context.getContentResolver().query(
                 ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
-                new String[]{id}, null);
+                ContactsContract.CommonDataKinds.Phone._ID+ " = ?",
+                new String[]{phoneId}, null);
+        int phoneIdx = phonesCur.getColumnIndex(Phone.NUMBER);
+         if(c.getCount() == 1) { // contact has a single phone number
+            // get the only phone number
+            if(c.moveToFirst()) {
+                phoneNumber = c.getString(phoneIdx);
+                Log.v(TAG, "Got phone number: " + phone);
 
-        JSONObject phones = new JSONObject();
 
-        while (phonesCur.moveToNext()) {
-            phoneNumber = phonesCur.getString(phonesCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-        }
+            } else {
+                Log.w(TAG, "No results");
+            }
+        } 
         phonesCur.close();
 
         return phoneNumber;
