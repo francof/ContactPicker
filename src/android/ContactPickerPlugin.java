@@ -225,7 +225,7 @@ public class ContactPickerPlugin extends CordovaPlugin {
         JSONObject phones = new JSONObject();
 
         while (phonesCur.moveToNext()) {
-            phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            phoneNumber = phonesCur.getString(phonesCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
         }
         phonesCur.close();
 
