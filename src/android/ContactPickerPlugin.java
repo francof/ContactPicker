@@ -228,7 +228,7 @@ public class ContactPickerPlugin extends CordovaPlugin {
             // get the only phone number
             if(phonesCur.moveToFirst()) {
                 phoneNumber = phonesCur.getString(phoneIdx);
-                Log.v("meow", "Got phone number: " + phone);
+                Log.v("meow", "Got phone number: " + phoneNumber);
 
 
             } else {
