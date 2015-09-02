@@ -114,7 +114,7 @@ public class ContactPickerPlugin extends CordovaPlugin {
             contact.put("displayName", name);
             contact.put("phones", phones);
             contact.put("photoUrl", photoUrl);
-            contact.put("phone", selectedPhone);
+            contact.put("selectedPhone", selectedPhone);
 
             callbackContext.success(contact);
 
